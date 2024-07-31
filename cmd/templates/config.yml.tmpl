@@ -1,0 +1,25 @@
+specVersion: 0.0.1 # not used for now
+# required, usually this should be company name without space.
+# if metadata.schema not provided, this will be used as metadata db schema
+org: zb # no space and specifia char allowed
+kind: ethereum # chain name
+network: holesky # chain network
+version: 0 # not used for now
+name: demo_testnet_holesky_project1 # required, not space or specical chars allowed
+source:
+	schema: "ethereum_holesky"
+	sourceDB: SELF_HOSTED_PROD_DB # in staging and prod, we can use prod db with read-only user
+	startBlock: 1167044
+#  addresses:
+#    - "0x055733000064333CaDDbC92763c58BF0192fFeBf" # testnet holesky AVS-Directory contract
+metadata:
+	metadataDB: RDS_TEST_DB
+	schema: zb
+destination:
+	destinationDB: RDS_TEST_DB
+	schema: "zb" # schema name for destination
+	eventHandlers: # multiple handlers
+	- event: Transfer
+	handler: HandleTransfer
+blockHandlers:
+	- handler: HandleBlock
