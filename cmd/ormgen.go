@@ -57,14 +57,14 @@ func generateOrm(args []string) (string, error) {
 	g := gen.NewGenerator(gen.Config{
 		// OutPath: "./query",
 		ModelPkgPath: fmt.Sprintf("./%s", packagePath),
-	    Mode: gen.WithoutContext|gen.WithDefaultQuery|gen.WithQueryInterface,
-	  })
+		Mode: gen.WithoutContext|gen.WithDefaultQuery|gen.WithQueryInterface,
+	})
 
 	gormdb, err := gorm.Open(rawsql.New(rawsql.Config{
 		DriverName: "postgres",
 		FilePath: []string{
 			// "./schema/base_mints.sql", // create table sql file
-	    	"./schema", // create table sql file directory
+			"./schema", // create table sql file directory
 		},
 	}))
 	if err != nil {
