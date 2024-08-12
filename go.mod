@@ -10,7 +10,7 @@ require (
 	gorm.io/rawsql v1.0.3-0.20240619030817-7120b651a1e9
 )
 
-require github.com/Zettablock/zsource v0.0.1
+require github.com/Zettablock/zsource v0.0.2
 
 require (
 	github.com/cznic/mathutil v0.0.0-20181122101859-297441e03548 // indirect
