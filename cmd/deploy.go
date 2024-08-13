@@ -16,10 +16,12 @@ limitations under the License.
 package cmd
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io/fs"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
@@ -58,17 +60,6 @@ type Config struct {
 	ZsourceVersion string `yaml:"zsource_version"`
 }
 
-// var (
-// 	organization   string
-// 	project        string
-// 	apiKey         string
-// 	githubUrl      string
-// 	pat            string
-// 	zsourceVersion string
-// 	version        string
-// 	pipelines      []PipelinePayload
-// )
-
 // deployCmd represents the deploy command
 var deployCmd = &cobra.Command{
 	Use:   "deploy",
@@ -78,8 +69,12 @@ plugin project, generate a payload that includes project info and details for al
 pipelines, then submit a request to trigger the server side deployment.`,
 	Run: func(_ *cobra.Command, args []string) {
 		err := deployProject(args)
-		cobra.CheckErr(err)
-		fmt.Println("Your project is submitted for deployment.")
+		// cobra.CheckErr(err)
+		if err != nil {
+			fmt.Println("Error occured:", err)
+		} else {
+			fmt.Println("Your project is submitted for deployment.")
+		}
 	},
 }
 
@@ -98,25 +93,51 @@ func init() {
 }
 
 func deployProject(args []string) error {
-	payload, err := generatePayload(args)
+	serviceURL := "https://qugate-dev.prod-czff.zettablock.dev/api/v1/zrunner/pipeline"
+	apiKey := "004fb30a-334b-47b0-b0d4-ec3e2e55977f"
 
-	if len(payload) == 0 && err == nil {
-		err = errors.New("Invalid payload returned. Payload is blank.")
+	payload, err := generatePayload(args)
+	if err != nil {
+		return err
 	}
 
-	fmt.Println("payload:", payload)
+	if payload == nil {
+		return errors.New("Invalid payload returned. Payload is blank.")
+	}
+
+	fmt.Println("payload:", string(payload))
+
+	req, err := http.NewRequest("POST", serviceURL, bytes.NewBuffer(payload))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("X-API-KEY", apiKey)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return errors.New(fmt.Sprintf("Request failed with status: %s", resp.Status))
+	}
+
+	fmt.Println("Request successful")
 
 	return err
 }
 
-func generatePayload(args []string) (string, error) {
+func generatePayload(args []string) ([]byte, error) {
 	var err error
 	var pipelines []PipelinePayload
 
 	payload := Payload{}
 	configs, err := collectProjectInfo(args)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	for i, config := range configs {
@@ -138,10 +159,10 @@ func generatePayload(args []string) (string, error) {
 
 	jsonData, err := json.Marshal(payload)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return string(jsonData), nil
+	return jsonData, nil
 }
 
 func collectProjectInfo(args []string) ([]Config, error) {
