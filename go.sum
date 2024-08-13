@@ -1,4 +1,6 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
+github.com/Masterminds/semver/v3 v3.2.1 h1:RN9w6+7QoMeJVGyfmbcgs28Br8cvmnucEXnY0rYXWg0=
+github.com/Masterminds/semver/v3 v3.2.1/go.mod h1:qvl/7zhW3nngYb5+80sSMF+FG2BjYrf8m9wsX0PNOMQ=
 github.com/Zettablock/zsource v0.0.1 h1:VmgIyC22hh2fGaCcRB6sd/zndLjBZ7jfJMN2QYAWEEk=
 github.com/Zettablock/zsource v0.0.1/go.mod h1:5keCGlTyUE8v+oPu8yFQzMMGCuQEO6SNDtDQuYdtWkA=
 github.com/Zettablock/zsource v0.0.2 h1:79exbcvx3/HR/pvkAeVsv+f/8kKKQ2UQKH9gI2BW8Vo=

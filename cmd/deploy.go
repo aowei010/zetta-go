@@ -24,7 +24,9 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/Masterminds/semver/v3"
 	"github.com/spf13/cobra"
+	"golang.org/x/mod/modfile"
 	"gopkg.in/yaml.v3"
 )
 
@@ -114,7 +116,6 @@ func generatePayload(args []string) (string, error) {
 	payload := Payload{}
 	configs, err := collectProjectInfo(args)
 	if err != nil {
-		fmt.Println("Error collect project info:", err)
 		return "", err
 	}
 
@@ -127,7 +128,7 @@ func generatePayload(args []string) (string, error) {
 			payload.ApiKey = config.ApiKey
 			payload.GithubUrl = config.GithubUrl
 			payload.Pat = config.Pat
-			payload.ZsourceVersion = "1.0.0" //TODO: Read from go.mod
+			payload.ZsourceVersion = zsourceVersion()
 		}
 		name := config.Name
 		pipelines = append(pipelines, PipelinePayload{name})
@@ -137,7 +138,6 @@ func generatePayload(args []string) (string, error) {
 
 	jsonData, err := json.Marshal(payload)
 	if err != nil {
-		fmt.Println("Error marshalling data:", err)
 		return "", err
 	}
 
@@ -149,23 +149,19 @@ func collectProjectInfo(args []string) ([]Config, error) {
 	config := Config{}
 
 	configFiles, err := findConfig()
-	fmt.Println("configPath: ", configFiles)
 
 	if len(configFiles) == 0 || err != nil {
-		fmt.Println("config.yml not found")
 		return configs, err
 	}
 
 	for _, configFile := range configFiles {
 		data, err := os.ReadFile(configFile)
 		if err != nil {
-			fmt.Println("Error reading config file:", err)
 			return configs, err
 		}
 
 		err = yaml.Unmarshal(data, &config)
 		if err != nil {
-			fmt.Println("Error parsing config file:", err)
 			return configs, err
 		}
 
@@ -199,4 +195,39 @@ func findConfig() ([]string, error) {
 	}
 
 	return configFiles, nil
+}
+
+func zsourceVersion() string {
+	modFile := "./go.mod"
+	moduleName := "github.com/Zettablock/zsource"
+
+	data, err := os.ReadFile(modFile)
+	if err != nil {
+		return ""
+	}
+
+	f, err := modfile.Parse(modFile, data, nil)
+	if err != nil {
+		return ""
+	}
+
+	moduleVersion := ""
+	for _, req := range f.Require {
+		if req.Mod.Path == moduleName {
+			moduleVersion = req.Mod.Version
+			break
+		}
+	}
+
+	if moduleVersion == "" {
+		return ""
+	}
+
+	version := &semver.Version{}
+	version, err = semver.NewVersion(moduleVersion)
+	if err != nil {
+		return ""
+	}
+
+	return (*version).String()
 }
