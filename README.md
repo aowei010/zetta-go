@@ -6,7 +6,7 @@ Steps to use zfaas:
 
 First initialize a go module in a folder. 
 
-Then use `go get github.com/Zettablock/zfaas` to install the zfaas cli application.
+Then use `go get github.com/Zettablock/zetta-cli` to install the zfaas cli application.
 
 Now you can use `init` command to initialize a new pipeline in your module folder. 
 

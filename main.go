@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/Zettablock/zfaas/cmd"
+import "github.com/Zettablock/zetta-cli/cmd"
 
 func main() {
 	cmd.Execute()
