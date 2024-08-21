@@ -5,21 +5,22 @@ org: zb # no space and specifia char allowed
 kind: ethereum # chain name
 network: holesky # chain network
 version: 0 # not used for now
-name: demo_testnet_holesky_project1 # required, not space or specical chars allowed
+name: demo_project1 # required, not space or specical chars allowed
+api_key: "1d1ea48c-1115-4243-9451-c7e1d85627bf"
+github_url: "https://github.com/Zettablock/zfaas"
+pat: ""
 source:
-	schema: "ethereum_holesky"
-	sourceDB: SELF_HOSTED_PROD_DB # in staging and prod, we can use prod db with read-only user
-	startBlock: 1167044
-#  addresses:
-#    - "0x055733000064333CaDDbC92763c58BF0192fFeBf" # testnet holesky AVS-Directory contract
+  schema: "ethereum_holesky"
+  sourceDB: SELF_HOSTED_PROD_DB # in staging and prod, we can use prod db with read-only user
+  startBlock: 1167044
 metadata:
-	metadataDB: RDS_TEST_DB
-	schema: zb
+  metadataDB: RDS_TEST_DB
+  schema: zb
 destination:
-	destinationDB: RDS_TEST_DB
-	schema: "zb" # schema name for destination
-	eventHandlers: # multiple handlers
-	- event: Transfer
-	handler: HandleTransfer
+  destinationDB: RDS_TEST_DB
+  schema: "zb" # schema name for destination
+  eventHandlers: # multiple handlers
+  - event: Transfer
+    handler: HandleTransfer
 blockHandlers:
-	- handler: HandleBlock
+  - handler: HandleBlock
