@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,9 +27,9 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "zfaas",
+	Use:   "zetta-go",
 	Short: "A generator for zrunner plugin application",
-	Long: `Zrunner is a framework to quickly index blockchain data.
+	Long: `ZRunner is a framework to quickly index blockchain data.
 This application is a tool to generate the needed files
 to quickly create a zrunner plugin application.`,
 	// Uncomment the following line if your bare application
@@ -53,7 +53,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.zfaas.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.zetta.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -70,10 +70,10 @@ func initConfig() {
 		home, err := os.UserHomeDir()
 		cobra.CheckErr(err)
 
-		// Search config in home directory with name ".zfaas" (without extension).
+		// Search config in home directory with name ".zetta" (without extension).
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
-		viper.SetConfigName(".zfaas")
+		viper.SetConfigName(".zetta")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
