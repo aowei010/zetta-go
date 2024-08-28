@@ -1,0 +1,8 @@
+name: [pipeline-name]  # required, no space or special chars allowed, must be consistent with the pipeline folder name
+source:
+  startBlock: 1167044
+eventHandlers: # multiple handlers
+  - event: Transfer
+    handler: HandleTransfer
+blockHandlers:
+  - handler: HandleBlock

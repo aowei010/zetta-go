@@ -19,19 +19,22 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/Zettablock/zetta-go/cmd/zrunner"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
+
+var version = "0.1.0"
 
 var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "zetta-go",
-	Short: "A generator for zrunner plugin application",
-	Long: `ZRunner is a framework to quickly index blockchain data.
-This application is a tool to generate the needed files
-to quickly create a zrunner plugin application.`,
+	Use:     "zetta-go",
+	Version: version,
+	Short:   "Zetta stands for a better AI economics",
+	Long: ` See the website at https://zettablock.com/ for documentation and more information about running code   
+ on ZettaBlock AI network.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -48,16 +51,16 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
+	rootCmd.AddCommand(zrunner.Cmd)
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.zetta.yaml)")
+	//rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.zetta.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 // initConfig reads in config file and ENV variables if set.

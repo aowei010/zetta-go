@@ -1,11 +1,11 @@
 /*
-Copyright © 2024 Spring Zhang <spring.zhang@zettablock.com>
+Copyright © 2024 Zettablock
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,24 +13,29 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package cmd
+package zrunner
 
 import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"gorm.io/gen"
 	"gorm.io/gorm"
 	"gorm.io/rawsql"
-	"gorm.io/gen"
+)
+
+const (
+	schemaPath  = "schemas"
+	packagePath = "dao"
 )
 
 // ormgenCmd represents the ormgen command
 var ormgenCmd = &cobra.Command{
 	Use:   "ormgen",
-	Short: "Generate GORM DAO models from provided schema sql file",
-	Long: `Command ormgen generates DAO models from SQL files. 
+	Short: "Generate GORM DAO files from the provided .sql files",
+	Long: `ormgen generates DAO files from .sql files. 
 	
-	All schema files should contain "create table" script for your tables and be stored into folder "schema".`,
+	All schema files should contain "create table" script for your tables and be stored in /schemas.`,
 	Run: func(_ *cobra.Command, args []string) {
 		daoPath, err := generateOrm(args)
 		cobra.CheckErr(err)
@@ -39,8 +44,6 @@ var ormgenCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(ormgenCmd)
-
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
@@ -53,29 +56,24 @@ func init() {
 }
 
 func generateOrm(args []string) (string, error) {
-	packagePath := "dao"
 	g := gen.NewGenerator(gen.Config{
 		// OutPath: "./query",
 		ModelPkgPath: fmt.Sprintf("./%s", packagePath),
-		Mode: gen.WithoutContext|gen.WithDefaultQuery|gen.WithQueryInterface,
+		Mode:         gen.WithoutContext | gen.WithDefaultQuery | gen.WithQueryInterface,
 	})
 
 	gormdb, err := gorm.Open(rawsql.New(rawsql.Config{
 		DriverName: "postgres",
 		FilePath: []string{
-			// "./schema/base_mints.sql", // create table sql file
-			"./schema", // create table sql file directory
+			schemaPath, // create table sql file directory
 		},
 	}))
 	if err != nil {
 		return "", err
 	}
 
-	fmt.Println(gormdb.Migrator().GetTables())
-
 	g.UseDB(gormdb)
 
-	// g.GenerateModel("base_mints")
 	g.GenerateAllTable()
 
 	g.Execute()

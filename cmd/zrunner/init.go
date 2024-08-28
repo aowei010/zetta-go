@@ -1,5 +1,5 @@
 /*
-Copyright © 2024 Spring Zhang <spring.zhang@zettablock.com>
+Copyright © 2024 Zettablock
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,13 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package cmd
+package zrunner
 
 import (
 	"fmt"
 	"os"
 	"path"
 
+	"github.com/Zettablock/zetta-go/internal"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -34,18 +35,19 @@ config file and the appropriate structure for a zrunner plugin.
 
 zetta-cli must be run inside of a github repository.)
 `,
-		Args: cobra.ExactArgs(0),
+
 		Run: func(_ *cobra.Command, args []string) {
 			pipelinePath, err := initializeProject(args)
 			cobra.CheckErr(err)
 			fmt.Println("Your zrunner project is ready at: ", pipelinePath)
-			fmt.Println("Please edit config.yml, block_handlers.go or event_handlers.go files to add your business logic.")
+			fmt.Println()
+			fmt.Println("Please edit project.yml, pipeline.yml, block_handlers.go and event_handlers.go files to add your business logic.")
 		},
 	}
 )
 
 func init() {
-	rootCmd.AddCommand(initCmd)
+
 }
 
 func initializeProject(args []string) (string, error) {
@@ -62,11 +64,9 @@ func initializeProject(args []string) (string, error) {
 	//	}
 	//}
 
-	project := &Project{
+	project := &internal.Project{
 		AbsolutePath: wd,
 		PkgName:      modName,
-		Legal:        getLicense(),
-		Copyright:    copyrightLine(),
 		Viper:        viper.GetBool("useViper"),
 		AppName:      path.Base(modName),
 	}
