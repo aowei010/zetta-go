@@ -13,25 +13,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package zrunner
+package pipeline
 
 import (
-	"github.com/Zettablock/zetta-go/cmd/zrunner/pipeline"
 	"github.com/spf13/cobra"
 )
 
 // Cmd represents the zrunner command
 var Cmd = &cobra.Command{
-	Use:   "zrunner [command]",
-	Short: "Manage your zrunner project",
+	Use:   "pipeline [command]",
+	Short: "Manage your local zrunner pipeline",
 	Args:  cobra.ExactArgs(1),
 }
 
 func init() {
-	Cmd.AddCommand(initCmd)
-	Cmd.AddCommand(deployCmd)
-	Cmd.AddCommand(ormgenCmd)
-	Cmd.AddCommand(pipeline.Cmd)
+	Cmd.AddCommand(createCmd)
 
 	// Here you will define your flags and configuration settings.
 

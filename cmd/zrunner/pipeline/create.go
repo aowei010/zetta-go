@@ -13,54 +13,58 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package zrunner
+package pipeline
 
 import (
-	"fmt"
+	"errors"
 	"os"
+	"regexp"
 
 	"github.com/Zettablock/zetta-go/internal"
 	"github.com/spf13/cobra"
 )
 
 var (
-	initCmd = &cobra.Command{
-		Use:     "init",
-		Aliases: []string{"initialize", "initialise", "create"},
-		Short:   "Initialize a zrunner project",
-		Long: `Init will create a new zrunner project, with a default
-config file and the appropriate structure for a zrunner plugin.
-
-zetta-cli must be run inside of a github repository.)
-`,
-
+	createCmd = &cobra.Command{
+		Use:   "create [pipeline-name]",
+		Short: "Create a zrunner pipeline",
+		Args:  cobra.ExactArgs(1),
 		Run: func(_ *cobra.Command, args []string) {
-			path, err := initializeProject()
+			err := createPipeline(args)
 			cobra.CheckErr(err)
-			fmt.Println("Your zrunner project is ready at: ", path)
-			fmt.Println()
-			fmt.Println("Please edit project.yml, pipeline.yml, block_handlers.go and event_handlers.go files to add your business logic.")
 		},
 	}
 )
 
 func init() {
-
 }
 
-func initializeProject() (string, error) {
+func createPipeline(args []string) error {
 	wd, err := os.Getwd()
 	if err != nil {
-		return "", err
+		return err
 	}
 
-	project := &internal.Project{
+	pipelineName := args[0]
+
+	pattern := `^[a-zA-Z0-9_-]+$`
+
+	// Compile the regular expression
+	re := regexp.MustCompile(pattern)
+
+	// Check if the string matches the pattern
+	if !re.MatchString(pipelineName) {
+		return errors.New("pipeline name should only contain alphanumeric characters, underscore and hyphen. No spaces or special characters allowed except hyphen and")
+	}
+
+	pipeline := &internal.Pipeline{
 		WorkingDir: wd,
+		Name:       pipelineName,
+	}
+	err = pipeline.Create()
+	if err != nil {
+		return err
 	}
 
-	if err = project.Create(); err != nil {
-		return "", err
-	}
-
-	return project.WorkingDir, nil
+	return nil
 }

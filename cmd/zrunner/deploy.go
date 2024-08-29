@@ -79,7 +79,7 @@ type PipelineConfig struct {
 // deployCmd represents the deploy command
 var deployCmd = &cobra.Command{
 	Use:   "deploy",
-	Short: "Deploy the project to the hosted zrunner service.",
+	Short: "Deploy the project to the hosted zrunner service",
 	Run: func(cmd *cobra.Command, args []string) {
 		err := deployProject(cmd)
 		cobra.CheckErr(err)
