@@ -8,7 +8,7 @@ import (
 )
 
 func HandleTransfer(log ethereum.Log, deps *utils.Deps) (bool, error) {
-	deps.Logger.Info("HandleTransfer", "block number", log.BlockNumber, "pipeline_name", deps.Config.GetPipelineName())
+	deps.Logger.Info("HandleTransfer", "block number", log.BlockNumber, "pipeline_name", deps.Config.Name)
 	time.Sleep(2 * time.Second)
 	return false, nil
 }	

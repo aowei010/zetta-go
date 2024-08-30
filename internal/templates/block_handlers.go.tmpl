@@ -10,7 +10,7 @@ import (
 // *utils.Deps contains *gorm.DB which can be used for CRUD
 // *utils.Deps also contains Logger
 func HandleBlock(block ethereum.Block, deps *utils.Deps) (bool, error) {
-	deps.Logger.Info("HandleBlock", "block number", block.Number, "pipeline_name", deps.Config.GetPipelineName())
+	deps.Logger.Info("HandleBlock", "block number", block.Number, "pipeline_name", deps.Config.Name)
 	time.Sleep(10 * time.Second)
 	return false, nil
 }
