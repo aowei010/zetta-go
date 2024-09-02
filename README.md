@@ -7,7 +7,7 @@ Golang 1.21 or higher
 
 ## Setup
 ```bash
-go install github.com/zetta-block/zetta-go@latest
+go install github.com/Zettablock/zetta-go@latest
 ```
 
 ## Usage
