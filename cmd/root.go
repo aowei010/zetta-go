@@ -19,7 +19,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Zettablock/zetta-go/cmd/zrunner"
+	"github.com/Zettablock/zetta-go-client/cmd/zrunner"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
