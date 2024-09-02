@@ -1,4 +1,4 @@
-module github.com/Zettablock/zetta-go
+module github.com/Zettablock/zetta-go-client
 
 go 1.21
 
