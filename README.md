@@ -6,7 +6,7 @@ Steps to use zetta-go-cli:
 
 First initialize a go module in a folder. 
 
-Then use `go get github.com/Zettablock/zetta-go-client` to install the zetta cli application.
+Then use `go get github.com/Zettablock/zetta-go` to install the zetta cli application.
 
 Now you can use `init` command to initialize a new pipeline in your module folder. 
 

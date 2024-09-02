@@ -20,7 +20,7 @@ import (
 	"os"
 	"regexp"
 
-	"github.com/Zettablock/zetta-go-client/internal"
+	"github.com/Zettablock/zetta-go/internal"
 
 	"github.com/spf13/cobra"
 )

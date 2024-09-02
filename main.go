@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/Zettablock/zetta-go-client/cmd"
+import "github.com/Zettablock/zetta-go/cmd"
 
 func main() {
 	cmd.Execute()

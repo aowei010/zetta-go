@@ -16,7 +16,7 @@ limitations under the License.
 package zrunner
 
 import (
-	"github.com/Zettablock/zetta-go-client/cmd/zrunner/pipeline"
+	"github.com/Zettablock/zetta-go/cmd/zrunner/pipeline"
 
 	"github.com/spf13/cobra"
 )
