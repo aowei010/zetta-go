@@ -35,7 +35,7 @@ import (
 )
 
 const (
-	qugateEndpoint = "https://qugate-dev.prod-czff.zettablock.dev/api/v1/zrunner/pipeline"
+	qugateEndpoint = "https://api.zettablock.com/api/v1/zrunner/pipeline"
 	goModFile      = "go.mod"
 	zsourceModule  = "github.com/Zettablock/zsource"
 	pipelineYml    = "pipeline.yml"
