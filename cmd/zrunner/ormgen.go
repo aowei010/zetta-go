@@ -55,9 +55,8 @@ func init() {
 	// ormgenCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func generateOrm(args []string) (string, error) {
+func generateOrm(_ []string) (string, error) {
 	g := gen.NewGenerator(gen.Config{
-		// OutPath: "./query",
 		ModelPkgPath: fmt.Sprintf("./%s", packagePath),
 		Mode:         gen.WithoutContext | gen.WithDefaultQuery | gen.WithQueryInterface,
 	})
