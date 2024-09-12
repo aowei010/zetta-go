@@ -15,6 +15,8 @@ const (
 	blockHandlersFile      = "block_handlers.go"
 	eventHandlersFile      = "event_handlers.go"
 	examplePipelineDirName = "example-pipeline"
+	schemasDir             = "schemas"
+	exampleSchemaFile      = "example.sql"
 )
 
 //go:embed templates/project.yml.tmpl
@@ -31,6 +33,9 @@ var eventHandlersTemplate string
 
 //go:embed templates/go.mod.tmpl
 var goModTemplate string
+
+//go:embed templates/example.sql.tmpl
+var exampleSchemaTemplate string
 
 type Project struct {
 	WorkingDir string
@@ -53,6 +58,22 @@ func (p *Project) Create() error {
 	// create project.yml
 	projectFileName := fmt.Sprintf("%s/%s", p.WorkingDir, projectYml)
 	err = os.WriteFile(projectFileName, []byte(projectYmlTemplate), mode)
+	if err != nil {
+		return err
+	}
+
+	// create schemas dir
+	schemasDirPath := fmt.Sprintf("%s/%s", p.WorkingDir, schemasDir)
+	if _, err = os.Stat(schemasDirPath); os.IsNotExist(err) {
+		// create directory
+		if err = os.Mkdir(schemasDirPath, mode); err != nil {
+			return err
+		}
+	}
+
+	// create example.sql
+	exampleSchemaFileName := fmt.Sprintf("%s/%s", schemasDirPath, exampleSchemaFile)
+	err = os.WriteFile(exampleSchemaFileName, []byte(exampleSchemaTemplate), mode)
 	if err != nil {
 		return err
 	}

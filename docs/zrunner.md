@@ -54,7 +54,7 @@ The scaffold includes the following files:
 ```
 project
 ├── schemas
-│   ├── example-table.sql
+│   ├── example.sql
 ├── example-pipeline
 │   ├── pipeline.yaml
 │   ├── block_handlers.go
