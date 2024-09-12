@@ -432,3 +432,8 @@ func HandlerIPRegistered(log ethereum.Log, deps *utils.Deps) (bool, error) {
 ```
 
 IPRegistered event signature: `IPRegistered (address ipId, index_topic_1 uint256 chainId, index_topic_2 address tokenContract, index_topic_3 uint256 tokenId, string name, string uri, uint256 registrationDate)`. You can access the event arguments using `log.ArgumentValues`.
+
+## More examples
+* https://github.com/Zettablock/story-zrunner
+* https://github.com/Zettablock/stellar-zrunner
+* https://github.com/Zettablock/beacon-zrunner

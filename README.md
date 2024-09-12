@@ -50,28 +50,4 @@ Flags:
 
 Use "zetta-go zrunner [command] --help" for more information about a command.
 ```
-
-#### Initialize a zrunner project
-You must initialize a zrunner project inside a GitHub repo.
-```bash
-❯ zetta-go zrunner init
-```
-`zetta-go` will generate a scaffold for a zrunner project.
-
-#### Generate GORM DAO files
-`zetta-go` will scan /schemas folder and generate GORM DAO files for each .sql file.
-```bash
-❯ zetta-go zrunner ormgen
-```
-
-#### Create a pipeline template
-`zetta-go` will generate a pipeline template in /your-pipeline-name folder.
-```bash
-❯ zetta-go zrunner pipeline create your-pipeline-name
-```
-
-#### Deploy the project
-`zetta-go` will deploy the pipeline to the hosted zrunner service. `--pat` is required for private GitHub repo.
-```bash
-❯ zetta-go zrunner deploy --api-key zettablock-api-key [--pat your-github-pat] 
-```
+For more information on how to use zrunner, please refer to the [ZRunner documentation](docs/zrunner.md).
